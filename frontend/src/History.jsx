@@ -9,8 +9,8 @@ export default function History() {
   async function load() {
     setError('')
     try {
-      const res = await fetch(${API_URL}/history)
-      if (!res.ok) throw new Error(Server returned )
+      const res = await fetch(API_URL + '/history')
+      if (!res.ok) throw new Error('Server returned ' + res.status)
       setRuns(await res.json())
     } catch (e) {
       setError(e.message)
