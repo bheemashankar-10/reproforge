@@ -13,7 +13,7 @@ def get_collection():
     global _client
     if _client is None:
         _client = MongoClient(os.environ["MONGODB_URI"], serverSelectionTimeoutMS=3000)
-    return _client["reproforge"]["history"]
+    return _client[os.environ.get("MONGODB_DB", "reproforge")]["history"]
 
 
 def save_run(kind: str, request: dict, response: dict) -> None:
