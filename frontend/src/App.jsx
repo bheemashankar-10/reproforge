@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import History from './History'
 
 const API_URL = import.meta.env.VITE_API_BASE_URL || 'http://127.0.0.1:8000'
 
@@ -130,7 +131,9 @@ export default function App() {
             {generate.loading ? 'Generating...' : 'Generate test'}
           </button>
           <Output error={generate.error} result={generate.result} />
-        </Card>
+                </Card>
+
+        <History />
       </div>
     </div>
   )

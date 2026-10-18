@@ -1,7 +1,8 @@
-from fastapi import APIRouter, HTTPException
+﻿from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel, Field
 
-from ..engine.ddmin import ddmin
+from backend.app.db import save_run
+from backend.app.engine.ddmin import ddmin
 
 router = APIRouter()
 
@@ -24,20 +25,21 @@ def minimize(req: MinimizeRequest):
     required = set(req.required_items)
 
     def fails(subset: list[str]) -> bool:
-        # The "bug" appears whenever every required item is present
         return required.issubset(subset)
 
     if not fails(req.items):
         raise HTTPException(
             status_code=400,
-            detail="The original items don't contain all required items, so there is no failure to minimize.",
+            detail="The original items do not contain all required items, so there is no failure to minimize.",
         )
 
     minimized, tests = ddmin(req.items, fails)
-    return MinimizeResponse(
+    response = MinimizeResponse(
         original_input=req.items,
         minimized_input=minimized,
         original_size=len(req.items),
         minimized_size=len(minimized),
         tests_run=tests,
     )
+    save_run("minimize", req.model_dump(), response.model_dump())
+    return response

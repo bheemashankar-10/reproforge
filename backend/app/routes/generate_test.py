@@ -1,7 +1,7 @@
-
-from fastapi import APIRouter
+﻿from fastapi import APIRouter
 from pydantic import BaseModel, Field
 
+from backend.app.db import save_run
 from backend.app.engine.test_generator import generate_regression_test
 
 router = APIRouter()
@@ -19,8 +19,10 @@ def generate_test(request: GenerateTestRequest):
         request.expected_error,
     )
 
-    return {
+    response = {
         "test_code": test_code,
         "language": "python",
         "framework": "pytest",
     }
+    save_run("generate_test", request.model_dump(), response)
+    return response

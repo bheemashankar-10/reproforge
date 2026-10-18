@@ -1,7 +1,7 @@
-
 from fastapi import APIRouter
 from pydantic import BaseModel, Field
 
+from backend.app.db import save_run
 from backend.app.engine.reproducer import reproduce_bug
 
 router = APIRouter()
@@ -14,4 +14,6 @@ class ReproduceRequest(BaseModel):
 
 @router.post("/reproduce")
 def reproduce(request: ReproduceRequest):
-    return reproduce_bug(request.code, request.timeout)
+    result = reproduce_bug(request.code, request.timeout)
+    save_run("reproduce", request.model_dump(), result)
+    return result
