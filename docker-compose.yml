@@ -17,6 +17,7 @@ services:
       CORS_ORIGINS: http://localhost:8080
       MONGODB_URI: mongodb://mongodb:27017
       MONGODB_DB: reproforge
+      API_KEY: ${API_KEY}
     ports:
       - "8001:8000"
     depends_on:
