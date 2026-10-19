@@ -19,4 +19,5 @@ def test_generates_error_test():
 
     assert "def test_regression():" in test_code
     assert "ZeroDivisionError" in test_code
+    assert "assert result.returncode != 0" in test_code
     assert "assert" in test_code

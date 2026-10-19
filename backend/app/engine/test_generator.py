@@ -15,6 +15,7 @@ def generate_regression_test(
             + repr(code)
             + "], capture_output=True, text=True, timeout=5\n"
             "    )\n"
+            "    assert result.returncode != 0\n"
             "    assert "
             + repr(expected_error)
             + " in result.stderr\n"

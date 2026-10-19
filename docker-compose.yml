@@ -1,13 +1,27 @@
 services:
+  mongodb:
+    image: mongo:7
+    volumes:
+      - mongodb_data:/data/db
+    healthcheck:
+      test: ["CMD", "mongosh", "--quiet", "--eval", "quit(db.adminCommand('ping').ok ? 0 : 1)"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
   backend:
     build:
       context: .
       dockerfile: backend/Dockerfile
-    env_file: .env
     environment:
       CORS_ORIGINS: http://localhost:8080
+      MONGODB_URI: ${MONGODB_URI:-mongodb://mongodb:27017}
+      MONGODB_DB: ${MONGODB_DB:-reproforge}
     ports:
       - "8001:8000"
+    depends_on:
+      mongodb:
+        condition: service_healthy
 
   frontend:
     build:
@@ -18,3 +32,6 @@ services:
       - "8080:80"
     depends_on:
       - backend
+
+volumes:
+  mongodb_data:

@@ -1,4 +1,4 @@
-import { useState } from 'react'
+﻿import { useState } from 'react'
 import History from './History'
 
 const API_URL = import.meta.env.VITE_API_BASE_URL || 'http://127.0.0.1:8000'
@@ -71,7 +71,7 @@ export default function App() {
 
   const reproduce = useAction(() => post('/reproduce', { code, timeout: Number(timeout) }))
   const minimize = useAction(() =>
-    post('/minimize', { items: splitList(items), required: splitList(required) }),
+    post('/minimize', { items: splitList(items), required_items: splitList(required) }),
   )
   const generate = useAction(() => {
     const body = { code }
@@ -97,7 +97,7 @@ export default function App() {
             <input
               type="number"
               min="1"
-              max="30"
+              max="10"
               value={timeout}
               onChange={(e) => setTimeoutValue(e.target.value)}
               className={`${inputClass} w-20`}
