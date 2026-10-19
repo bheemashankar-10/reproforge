@@ -6,7 +6,7 @@ const API_URL = import.meta.env.VITE_API_BASE_URL || 'http://127.0.0.1:8000'
 async function post(path, body) {
   const res = await fetch(`${API_URL}${path}`, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    headers: { 'Content-Type': 'application/json', 'X-API-Key': import.meta.env.VITE_API_KEY || '' },
     body: JSON.stringify(body),
   })
   if (!res.ok) throw new Error(`Server returned ${res.status}`)
@@ -138,3 +138,4 @@ export default function App() {
     </div>
   )
 }
+
