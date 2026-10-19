@@ -1,39 +1,37 @@
-Set-Content -Path docker-compose.yml -Encoding ascii -Value @(
-'services:',
-'  mongodb:',
-'    image: mongo:7',
-'    volumes:',
-'      - mongodb_data:/data/db',
-'    healthcheck:',
-'      test: ["CMD", "mongosh", "--quiet", "--eval", "db.runCommand({ping:1})"]',
-'      interval: 5s',
-'      timeout: 5s',
-'      retries: 10',
-'',
-'  backend:',
-'    build:',
-'      context: .',
-'      dockerfile: backend/Dockerfile',
-'    environment:',
-'      CORS_ORIGINS: http://localhost:8080',
-'      MONGODB_URI: mongodb://mongodb:27017',
-'      MONGODB_DB: reproforge',
-'    ports:',
-'      - "8001:8000"',
-'    depends_on:',
-'      mongodb:',
-'        condition: service_healthy',
-'',
-'  frontend:',
-'    build:',
-'      context: frontend',
-'      args:',
-'        VITE_API_BASE_URL: http://localhost:8001',
-'    ports:',
-'      - "8080:80"',
-'    depends_on:',
-'      - backend',
-'',
-'volumes:',
-'  mongodb_data:'
-)
+services:
+  mongodb:
+    image: mongo:7
+    volumes:
+      - mongodb_data:/data/db
+    healthcheck:
+      test: ["CMD", "mongosh", "--quiet", "--eval", "db.runCommand({ping:1})"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  backend:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+    environment:
+      CORS_ORIGINS: http://localhost:8080
+      MONGODB_URI: mongodb://mongodb:27017
+      MONGODB_DB: reproforge
+    ports:
+      - "8001:8000"
+    depends_on:
+      mongodb:
+        condition: service_healthy
+
+  frontend:
+    build:
+      context: frontend
+      args:
+        VITE_API_BASE_URL: http://localhost:8001
+    ports:
+      - "8080:80"
+    depends_on:
+      - backend
+
+volumes:
+  mongodb_data:

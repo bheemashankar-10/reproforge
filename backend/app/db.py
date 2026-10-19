@@ -1,4 +1,4 @@
-import os
+﻿import os
 from datetime import datetime, timezone
 
 from dotenv import load_dotenv
@@ -39,7 +39,7 @@ def list_runs(limit: int = 20) -> list[dict]:
             "kind": d["kind"],
             "request": d["request"],
             "response": d["response"],
-            "created_at": d["created_at"].isoformat().replace("+00:00", "Z"),
+            "created_at": d["created_at"].replace(tzinfo=timezone.utc).isoformat().replace("+00:00", "Z"),
         }
         for d in docs
     ]
