@@ -3,7 +3,10 @@ from fastapi.testclient import TestClient
 
 from backend.app.main import app
 
-client = TestClient(app)
+client = TestClient(
+    app,
+    headers={"X-API-Key": "reproforge-test-key"},
+)
 
 
 def test_reproduce_endpoint():
