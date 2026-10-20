@@ -1,6 +1,8 @@
 ﻿import { useEffect, useState } from 'react'
 
-const API_URL = import.meta.env.VITE_API_BASE_URL || 'http://127.0.0.1:8000'
+const API_URL =
+  import.meta.env.VITE_API_BASE_URL ||
+  'https://reproforge-backend.onrender.com'
 
 async function fetchRuns() {
   const res = await fetch(API_URL + '/history', { headers: { 'X-API-Key': import.meta.env.VITE_API_KEY || '' } })
