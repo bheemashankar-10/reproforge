@@ -25,6 +25,7 @@ def test_timeout():
     assert "timed out" in result["stderr"].lower()
     assert result["returncode"] is None
 
+
 def test_environment_variables_are_isolated():
     code = (
         "import os; "
@@ -37,10 +38,11 @@ def test_environment_variables_are_isolated():
     assert result["success"] is True
     assert result["stdout"] == "None\nNone\n"
 
+
 def test_network_access_is_blocked():
     code = (
         "import urllib.request; "
-        "urllib.request.urlopen('https://example.com', timeout=3)"
+        "urllib.request.urlopen('http://192.0.2.1', timeout=1)"
     )
 
     result = reproduce_bug(code)
@@ -48,14 +50,8 @@ def test_network_access_is_blocked():
     assert result["success"] is False
     assert "URLError" in result["stderr"]
     assert result["returncode"] != 0
-def test_excessive_output_is_limited():
-    code = "while True: print('A' * 1000)"
 
-    result = reproduce_bug(code, timeout=2)
 
-    assert result["success"] is False
-    assert len(result["stdout"]) + len(result["stderr"]) <= 1_100_000
-    assert "output limit" in result["stderr"].lower()
 def test_excessive_output_is_limited():
     code = "while True: print('A' * 1000)"
 

@@ -5,6 +5,7 @@ __pycache__/
 .env
 .env.*
 !.env.example
+.dev.vars
 .pytest_cache/
 .ruff_cache/
 node_modules/

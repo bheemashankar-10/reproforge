@@ -1,0 +1,3 @@
+name = "reproforge-api-proxy"
+main = "src/index.js"
+compatibility_date = "2026-11-09"
